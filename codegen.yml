@@ -5,7 +5,7 @@ generates:
   src/graphql/schema.graphql:
     plugins:
       - schema-ast
-  src/gql.tsx:
+  src/generated/gql.ts:
     plugins:
       - "typescript"
       - "typescript-operations"

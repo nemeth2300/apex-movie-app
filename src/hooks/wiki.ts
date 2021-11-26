@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { SearchMovieFragment } from "./gql";
-import { Page } from "./types";
-import { requestWikiHtml, requestWikiPage } from "./network/wikipedia";
-
-export const useURLQuery = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  return params;
-};
+import { SearchMovieFragment } from "../generated/gql";
+import { getWikiHtml, getWikiPage } from "../api/wikipedia";
+import { Page } from "../types/wiki";
 
 export const useWikiHtml = (key: string, lazy: boolean) => {
   const [data, setData] = useState<Document | null>(null);
@@ -16,7 +9,7 @@ export const useWikiHtml = (key: string, lazy: boolean) => {
   const [error, setError] = useState(false);
   const query = async (key: string) => {
     setLoading(true);
-    const [data, error] = await requestWikiHtml(key);
+    const [data, error] = await getWikiHtml(key);
     if (data) setData(data);
     if (error) setError(false);
     setLoading(false);
@@ -33,7 +26,7 @@ export const useWikiPage = (movie: SearchMovieFragment, lazy: boolean) => {
   const [error, setError] = useState(false);
   const query = async (movie: SearchMovieFragment) => {
     setLoading(true);
-    const [data, err] = await requestWikiPage(
+    const [data, err] = await getWikiPage(
       `Movie ${movie.name} ${movie.releaseDate.slice(0, 10)}`
     );
     if (data) setData(data);

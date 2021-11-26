@@ -1,8 +1,11 @@
 import { Box, CircularProgress, Divider } from "@mui/material";
 import ErrorDialog from "./ErrorDialog";
 import MovieCard from "./MovieCard";
-import { useGetSimilarMovieQuery, useSearchMoviesQuery } from "../gql";
-import { useURLQuery } from "../hooks";
+import { useURLQuery } from "../hooks/util";
+import {
+  useGetSimilarMovieQuery,
+  useSearchMoviesQuery,
+} from "../generated/gql";
 
 type Props = {};
 
@@ -11,27 +14,28 @@ const AppContent: React.FC<Props> = () => {
   const text = urlQuery.get("text") || "";
   const id = urlQuery.get("id") || "";
 
+  // Either one could run, but never concurrently
   const {
-    data: searchMovies,
+    data: searchData,
     loading: searchLoading,
     error: searchError,
   } = useSearchMoviesQuery({
     variables: { text },
-    skip: !text,
+    skip: !text || !!id,
   });
   const {
-    data: similarMovies,
+    data: similarData,
     loading: similarLoading,
     error: similarError,
   } = useGetSimilarMovieQuery({
     variables: { id },
-    skip: !id,
+    skip: !id || !!text,
   });
 
   const error = searchError || similarError;
-  const movies = searchMovies?.searchMovies || similarMovies?.movie.similar;
+  const movies = searchData?.searchMovies || similarData?.movie.similar;
   const loading = searchLoading || similarLoading;
-  const referenceMovie = similarMovies?.movie;
+  const referenceMovie = similarData?.movie;
 
   return (
     <Box className="content" flex="auto" margin={4}>

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import AppHeader from "./components/AppHeader";
-import AppFooter from "./components/AppFooter";
-import AppContent from "./components/AppContent";
+import AppHeader from "./AppHeader";
+import AppFooter from "./AppFooter";
+import AppContent from "./AppContent";
 
 type Props = {};
 

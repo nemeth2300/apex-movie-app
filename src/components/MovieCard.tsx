@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Chip } from "@mui/material";
 import { Star } from "@mui/icons-material";
 import MovieDialog from "./MovieDialog";
-import { SearchMovieFragment } from "../gql";
+import { SearchMovieFragment } from "../generated/gql";
 
 type Props = {
   movie: SearchMovieFragment;
@@ -10,14 +10,15 @@ type Props = {
 const MovieCard: React.FC<Props> = ({ movie }) => {
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <Box className="movie-item" maxWidth={480}>
-      <Box
-        padding={1}
-        textAlign="center"
-        fontSize="larger"
-        onClick={() => setModalOpen(true)}
-      >
-        <a href="#" onClick={(e) => e.preventDefault()}>
+    <Box className="movie-card" maxWidth={480}>
+      <Box padding={1} textAlign="center" fontSize="larger">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setModalOpen(true);
+          }}
+        >
           {movie.name}
         </a>
       </Box>

@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, Dialog, Skeleton } from "@mui/material";
-import { SearchMovieFragment } from "../gql";
-import { wikiHtmlToFirstParagraph } from "../utils/wikipedia";
-import { imdbURL, wikipediaURL } from "../constants";
 import { Link } from "react-router-dom";
-import { useWikiHtml, useWikiPage } from "../hooks";
+import { Box, Dialog, Skeleton } from "@mui/material";
+import { IMDB_URL, WIKI_URL } from "../constants/urls";
+import { wikiHtmlToFirstParagraph } from "../utils/wiki";
+import { useWikiHtml, useWikiPage } from "../hooks/wiki";
+import { SearchMovieFragment } from "../generated/gql";
 
 type Props = {
   movie: SearchMovieFragment;
@@ -22,43 +22,47 @@ const MovieDialog: React.FC<Props> = ({ movie, open, onChange }) => {
   const text = wikiHtml ? wikiHtmlToFirstParagraph(wikiHtml) : "";
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={() => onChange(false)}>
-      <Box style={{ backgroundColor: "white" }}>
-        <Box padding={4}>
-          <Box display="flex" justifyContent="space-between">
-            <img src="https://en.wikipedia.org/static/images/project-logos/enwiki.png" />
+    <Dialog
+      className="movie-dialog"
+      fullWidth
+      maxWidth="md"
+      open={open}
+      onClose={() => onChange(false)}
+    >
+      <Box padding={4}>
+        <Box display="flex" justifyContent="space-between">
+          <img src="https://en.wikipedia.org/static/images/project-logos/enwiki.png" />
+          <Box>
             <Box>
-              <Box>
-                <a
-                  href={`${wikipediaURL}/wiki/${wikiPage?.key || ""}`}
-                  target="_blank"
-                >
-                  Wikipedia
-                </a>
-              </Box>
-              <Box>
-                <a
-                  href={`${imdbURL}/title/${movie.socialMedia?.imdb || ""}`}
-                  target="_blank"
-                >
-                  IMDB
-                </a>
-              </Box>
-              <Box>
-                <Link to={`/movies?id=${movie.id}`}>Related</Link>
-              </Box>
+              <a
+                href={`${WIKI_URL}/wiki/${wikiPage?.key || ""}`}
+                target="_blank"
+              >
+                Wikipedia
+              </a>
+            </Box>
+            <Box>
+              <a
+                href={`${IMDB_URL}/title/${movie.socialMedia?.imdb || ""}`}
+                target="_blank"
+              >
+                IMDB
+              </a>
+            </Box>
+            <Box>
+              <Link to={`/movies?id=${movie.id}`}>Related</Link>
             </Box>
           </Box>
-          <Box minHeight={240}>
-            {loading && (
-              <>
-                <Skeleton animation="pulse" />
-                <Skeleton animation="pulse" />
-                <Skeleton animation="pulse" />
-              </>
-            )}
-            {text}
-          </Box>
+        </Box>
+        <Box minHeight={240}>
+          {loading && (
+            <>
+              <Skeleton animation="pulse" />
+              <Skeleton animation="pulse" />
+              <Skeleton animation="pulse" />
+            </>
+          )}
+          {text}
         </Box>
       </Box>
     </Dialog>
