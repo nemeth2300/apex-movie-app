@@ -1,0 +1,18 @@
+fragment SearchMovie on Movie {
+  id
+  name
+  overview
+  releaseDate
+  score
+  genres {
+    id
+    name
+  }
+  popularity
+  poster {
+    small
+  }
+  socialMedia {
+    imdb
+  }
+}

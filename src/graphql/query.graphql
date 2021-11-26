@@ -1,0 +1,14 @@
+query SearchMovies($text: String!) {
+  searchMovies(query: $text) {
+    ...SearchMovie
+  }
+}
+
+query GetSimilarMovie($id: ID!) {
+  movie(id: $id) {
+    ...SearchMovie
+    similar {
+      ...SearchMovie
+    }
+  }
+}

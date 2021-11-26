@@ -1,0 +1,7 @@
+projects:
+  default:
+    schema: "./src/graphql/schema.graphql"
+    documents: "./src/graphql/**/*.graphql"
+    extensions:
+      languageService:
+        useSchemaFileDefinitions: true
