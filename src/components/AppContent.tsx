@@ -1,6 +1,7 @@
 import { Box, CircularProgress, Divider } from "@mui/material";
 import ErrorDialog from "./ErrorDialog";
 import MovieCard from "./MovieCard";
+import MovieList from "./MovieList";
 import { useURLQuery } from "../hooks/util";
 import {
   useGetSimilarMovieQuery,
@@ -32,9 +33,9 @@ const AppContent: React.FC<Props> = () => {
     skip: !id || !!text,
   });
 
-  const error = searchError || similarError;
-  const movies = searchData?.searchMovies || similarData?.movie.similar;
+  const data = searchData?.searchMovies || similarData?.movie.similar;
   const loading = searchLoading || similarLoading;
+  const error = searchError || similarError;
   const referenceMovie = similarData?.movie;
 
   return (
@@ -53,18 +54,19 @@ const AppContent: React.FC<Props> = () => {
           <Divider />
         </Box>
       )}
-      <Box
-        className="movie-list"
-        display="flex"
-        flexWrap="wrap"
-        justifyContent="center"
-      >
-        {error && <ErrorDialog message={error.message} />}
-        {loading && <CircularProgress />}
-        {movies?.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </Box>
+      {data?.length ? (
+        <MovieList movies={data} />
+      ) : (
+        <Box textAlign="center">
+          <p>No results found!</p>
+        </Box>
+      )}
+      {loading && (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Box>
+      )}
+      {error && <ErrorDialog message={error.message} />}
     </Box>
   );
 };

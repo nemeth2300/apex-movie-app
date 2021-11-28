@@ -19,6 +19,7 @@ const AppHeader: React.FC<Props> = () => {
           borderRadius={1}
         >
           <Input
+            id="search-input"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Search"
@@ -30,6 +31,7 @@ const AppHeader: React.FC<Props> = () => {
           />
           <Box marginLeft={1}>
             <Button
+              id="search-button"
               variant="contained"
               onClick={() => navigate(`/movies?text=${text}`)}
             >

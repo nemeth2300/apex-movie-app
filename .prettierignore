@@ -1,0 +1,5 @@
+build
+
+# Do not format generated files
+src/generated
+src/graphql/schema.graphql

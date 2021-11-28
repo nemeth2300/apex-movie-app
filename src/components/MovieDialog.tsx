@@ -9,7 +9,7 @@ import { SearchMovieFragment } from "../generated/gql";
 type Props = {
   movie: SearchMovieFragment;
   open: boolean;
-  onChange: (state: boolean) => any;
+  onChange: (state: boolean) => void;
 };
 
 const MovieDialog: React.FC<Props> = ({ movie, open, onChange }) => {

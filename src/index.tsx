@@ -6,16 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 import { initialiseAxios } from "./api/index";
 import App from "./components/App";
 
-const initialise = () => {
-  initialiseAxios();
-};
-
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: "https://tmdb.sandbox.zoosh.ie/dev/grphql",
   cache: new InMemoryCache(),
 });
 
-initialise();
+initialiseAxios();
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
@@ -24,5 +21,6 @@ ReactDOM.render(
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
+  () => {}
 );
